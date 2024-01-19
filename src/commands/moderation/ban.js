@@ -1,8 +1,9 @@
 const {ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
 
 module.exports = {
+    deleted: true,
     name: 'ban',
-    description: 'Bans a player from the server!',
+    description: 'Bans a player from the their adventure!',
     // devOnly: boolean,
     // testOnly: Boolean,
     options: [
@@ -20,6 +21,7 @@ module.exports = {
     ],
 
     permissionsRequired: [PermissionFlagsBits.Administrator],
+    botPermissions: [PermissionFlagsBits.Administrator],
 
     callback: (client, interaction) => {
         interaction.reply(`Pong! ${client.ws.ping}ms`);
