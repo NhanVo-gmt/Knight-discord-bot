@@ -5,6 +5,7 @@ module.exports = {
     // testOnly: Boolean,
     // options: Object[],
     callback: (client, interaction) => {
+        
         interaction.reply(`I love you too`);
     }
 }
