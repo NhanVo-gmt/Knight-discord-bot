@@ -27,7 +27,7 @@ module.exports = async (client, interaction) => {
         }
 
         // Only use on test server
-        if (commandObject.testOnlye)
+        if (commandObject.testOnly)
         {
             if (!interaction.guild.id === testServer)
             {
@@ -40,17 +40,16 @@ module.exports = async (client, interaction) => {
         }
 
         // Only when having enough permission
-        if (commandObject.botPermissions?.length)
+        if (commandObject.botPermissions?.length) 
         {
-            for (const permission of commandObject.botPermissions)
-            {
-                if (!interaction.member.me.has(permission))
-                {
+            for (const permission of commandObject.botPermissions) {
+                const bot = interaction.guild.members.me;
+                if (!bot.permissions.has(permission)) {
                     interaction.reply({
-                        content: 'I do not have enough permission',
-                        ephemeral: true,
+                    content: "I don't have enough permissions.",
+                    ephemeral: true,
                     });
-                    break;
+                    return;
                 }
             }
         }
