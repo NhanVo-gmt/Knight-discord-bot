@@ -3,5 +3,7 @@
     "clientId": "1197104052991971388",
     "devs": [
         "526376821378514974"
-    ]
+    ],
+    "mongodbUser": "tonynhanvo",
+    "mongodbPass": "21Rr00QGgy5ODfgH"
 }
