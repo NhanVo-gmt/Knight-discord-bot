@@ -1,13 +1,17 @@
-const {Client, Interaction, ApplicationCommandOptionType} = require('discord.js');
+const {Client, Interaction, ApplicationCommandOptionType, SlashCommandBuilder} = require('discord.js');
 const User = require('../../models/User');
 
 module.exports = {
-    /**
-     * 
-     * @param {Client} client 
-     * @param {Interaction} interaction 
-     */
-    callback: async (client, interaction) => {
+
+    data: new SlashCommandBuilder()
+        .setName("balance")
+        .setDescription("Check user balance")
+        .addMentionableOption(option => 
+            option.setName('target-user')
+                .setDescription('The user \'balance you want to see')
+                .setRequired(true)),
+
+    run: async ({interaction, client}) => {
         if (!interaction.inGuild())
         {
             interaction.reply({
@@ -39,16 +43,23 @@ module.exports = {
         } catch (error) {
             console.log(`There is something wrong with check balance`);
         }
-
-    
     },
-    name: 'balance',
-    description: 'Check balance',
-    options: [
-        {
-            name: 'target-user',
-            description: 'The user \'balance you want to see',
-            type: ApplicationCommandOptionType.Mentionable,
-        }
-    ]
+    
+    // /**
+    //  * 
+    //  * @param {Client} client 
+    //  * @param {Interaction} interaction 
+    //  */
+    // callback: async (client, interaction) => {
+    //    
+    // },
+    // name: 'balance',
+    // description: 'Check balance',
+    // options: [
+    //     {
+    //         name: 'target-user',
+    //         description: 'The user \'balance you want to see',
+    //         type: ApplicationCommandOptionType.Mentionable,
+    //     }
+    // ]
 }

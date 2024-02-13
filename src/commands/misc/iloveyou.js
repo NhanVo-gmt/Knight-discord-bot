@@ -1,11 +1,22 @@
+const { SlashCommandBuilder } = require("discord.js");
+
 module.exports = {
-    name: 'iloveyou',
-    description: 'Pong!',
-    // devOnly: boolean,
-    // testOnly: Boolean,
-    // options: Object[],
-    callback: (client, interaction) => {
-        
+
+    data: new SlashCommandBuilder()
+        .setName("iloveyou")
+        .setDescription("A big surprise"),
+
+    run: async ({interaction, client}) => {
         interaction.reply(`I love you too`);
-    }
+    },
+
+
+    // callback: (client, interaction) => {
+        
+    //     interaction.reply(`I love you too`);
+    // },
+    
+    // name: 'iloveyou',
+    // description: 'Pong!',
+    
 }

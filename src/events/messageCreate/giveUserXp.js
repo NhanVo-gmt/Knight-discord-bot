@@ -9,13 +9,15 @@ function getRandomXp(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+const timeout = 60000;
+
 /**
  * 
  * @param {Client} client 
  * @param {Message} message 
  */
 
-module.exports = async (client, message) => {
+module.exports = async (message, client, handler)  => {
     if (!message.inGuild() || message.author.bot || cooldowns.has(message.author.id)) return;
 
     const xpToGive = getRandomXp(5, 15);

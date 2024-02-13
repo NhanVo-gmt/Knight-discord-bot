@@ -1,8 +1,21 @@
-const {ApplicationCommandOptionType, PermissionFlagsBits, Client, Interaction} = require('discord.js');
+const {ApplicationCommandOptionType, PermissionFlagsBits, Client, Interaction, SlashCommandBuilder} = require('discord.js');
 
 module.exports = {
 
-    callback: async (client, interaction) => {
+    data: new SlashCommandBuilder()
+        .setName("kick")
+        .setDescription("Kick a Knight from the their adventure!")
+        .addMentionableOption(option => 
+            option.setName('target-user')
+                .setDescription('The user to kick.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('reason')
+                .setDescription('Reason to kick'))
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
+        ,
+
+    run: async ({interaction, client}) => {
         const targetUserId = interaction.options.get('target-user').value;
         const reason = interaction.options.get('reason')?.value || "No reason to provided";
         await interaction.deferReply();
@@ -45,27 +58,30 @@ module.exports = {
         } catch (error) {
             console.log(`There was an error when kicking: ${error}`);
         }
+    },
+
+    callback: async (client, interaction) => {
 
     },
 
-    name: 'kick',
-    description: 'Kick a Knight from the their adventure!',
-    // devOnly: boolean,
-    // testOnly: Boolean,
-    options: [
-        {
-            name: 'target-user',
-            description: 'The user to kick.',
-            required: true,
-            type: ApplicationCommandOptionType.Mentionable
-        },
-        {
-            name: 'reason',
-            description: 'The reason to kick.',
-            type: ApplicationCommandOptionType.String
-        }
-    ],
+    // name: 'kick',
+    // description: 'Kick a Knight from the their adventure!',
+    // // devOnly: boolean,
+    // // testOnly: Boolean,
+    // options: [
+    //     {
+    //         name: 'target-user',
+    //         description: 'The user to kick.',
+    //         required: true,
+    //         type: ApplicationCommandOptionType.Mentionable
+    //     },
+    //     {
+    //         name: 'reason',
+    //         description: 'The reason to kick.',
+    //         type: ApplicationCommandOptionType.String
+    //     }
+    // ],
 
-    permissionsRequired: [PermissionFlagsBits.KickMembers],
-    botPermissions: [PermissionFlagsBits.KickMembers]
+    // permissionsRequired: [PermissionFlagsBits.KickMembers],
+    // botPermissions: [PermissionFlagsBits.KickMembers]
 }

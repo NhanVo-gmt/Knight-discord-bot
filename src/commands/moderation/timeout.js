@@ -1,15 +1,26 @@
-const { ApplicationCommandOptionType, PermissionsBitField, PermissionFlagsBits, Client, Interaction } = require("discord.js");
+const { ApplicationCommandOptionType, PermissionsBitField, PermissionFlagsBits, Client, Interaction, SlashCommandBuilder } = require("discord.js");
 const ms = require('ms');
 
 module.exports = {
 
-    /**
-     * 
-     * @param {Client} client 
-     * @param {Interaction} interaction 
-     */
+    data: new SlashCommandBuilder()
+        .setName("timeout")
+        .setDescription("You will be silent")
+        .addMentionableOption(option => 
+            option.setName('target-user')
+                .setDescription('The user to ban.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('duration')
+                .setDescription('Timeout duration (30m, 1h, 1day)')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('reason')
+                .setDescription('Reason to time out'))
+        .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers)
+        ,
 
-    callback: async (client, interaction) => {
+    run: async ({interaction, client}) => {
         const mentionable = interaction.options.get('target-user').value;
         const duration = interaction.options.get('duration').value;
         const reason = interaction.options.get('reason')?.value || "No reason provided";
@@ -75,31 +86,41 @@ module.exports = {
                 \nReason: ${reason}`);
 
         } catch (error) {
-            console.log(`There was an error when kicking: ${error}`);
+            console.log(`There was an error when timeout: ${error}`);
         }
     },
 
-    name: "timeout",
-    description: "Timeout a user.",
-    options: [
-        {
-            name: 'target-user',
-            description: 'The user you want to timeout.',
-            type: ApplicationCommandOptionType.Mentionable,
-            required: true,
-        },
-        {
-            name: 'duration',
-            description: 'Timeout duration (30m, 1h, 1day)',
-            type: ApplicationCommandOptionType.String,
-            required: true
-        },
-        {
-            name: 'reason',
-            description: 'The reason for timeout',
-            type: ApplicationCommandOptionType.String,
-        }
-    ],
-    permissionsRequired: [PermissionFlagsBits.MuteMembers],
-    botPermissions: [PermissionFlagsBits.MuteMembers],
+    // /**
+    //  * 
+    //  * @param {Client} client 
+    //  * @param {Interaction} interaction 
+    //  */
+
+    // callback: async (client, interaction) => {
+        
+    // },
+
+    // name: "timeout",
+    // description: "Timeout a user.",
+    // options: [
+    //     {
+    //         name: 'target-user',
+    //         description: 'The user you want to timeout.',
+    //         type: ApplicationCommandOptionType.Mentionable,
+    //         required: true,
+    //     },
+    //     {
+    //         name: 'duration',
+    //         description: 'Timeout duration (30m, 1h, 1day)',
+    //         type: ApplicationCommandOptionType.String,
+    //         required: true
+    //     },
+    //     {
+    //         name: 'reason',
+    //         description: 'The reason for timeout',
+    //         type: ApplicationCommandOptionType.String,
+    //     }
+    // ],
+    // permissionsRequired: [PermissionFlagsBits.MuteMembers],
+    // botPermissions: [PermissionFlagsBits.MuteMembers],
 }
