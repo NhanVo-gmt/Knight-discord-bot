@@ -1,8 +1,21 @@
-const {ApplicationCommandOptionType, PermissionFlagsBits, Client, Interaction} = require('discord.js');
+const {ApplicationCommandOptionType, PermissionFlagsBits, Client, Interaction, SlashCommandBuilder} = require('discord.js');
 
 module.exports = {
 
-    callback: async (client, interaction) => {
+    data: new SlashCommandBuilder()
+        .setName("ban")
+        .setDescription("Bans a Knight from the their adventure!")
+        .addMentionableOption(option => 
+            option.setName('target-user')
+                .setDescription('The user to ban.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('reason')
+                .setDescription('Reason to ban'))
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
+        ,
+
+    run: async ({interaction, client}) => {
         const targetUserId = interaction.options.get('target-user').value;
         const reason = interaction.options.get('reason')?.value || "No reason to provided";
         await interaction.deferReply();
@@ -45,27 +58,29 @@ module.exports = {
         } catch (error) {
             console.log(`There was an error when banning: ${error}`);
         }
-
     },
 
-    name: 'ban',
-    description: 'Bans a Knight from the their adventure!',
-    // devOnly: boolean,
-    // testOnly: Boolean,
-    options: [
-        {
-            name: 'target-user',
-            description: 'The user to ban.',
-            required: true,
-            type: ApplicationCommandOptionType.Mentionable
-        },
-        {
-            name: 'reason',
-            description: 'The reason to ban.',
-            type: ApplicationCommandOptionType.String
-        }
-    ],
+    // callback: async (client, interaction) => {
+    // },
 
-    permissionsRequired: [PermissionFlagsBits.BanMembers],
-    botPermissions: [PermissionFlagsBits.BanMembers]
+    // name: 'ban',
+    // description: 'Bans a Knight from the their adventure!',
+    // // devOnly: boolean,
+    // // testOnly: Boolean,
+    // options: [
+    //     {
+    //         name: 'target-user',
+    //         description: 'The user to ban.',
+    //         required: true,
+    //         type: ApplicationCommandOptionType.Mentionable
+    //     },
+    //     {
+    //         name: 'reason',
+    //         description: 'The reason to ban.',
+    //         type: ApplicationCommandOptionType.String
+    //     }
+    // ],
+
+    // permissionsRequired: [PermissionFlagsBits.BanMembers],
+    // botPermissions: [PermissionFlagsBits.BanMembers]
 }

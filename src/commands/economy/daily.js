@@ -1,16 +1,15 @@
-const { Client, Interaction } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 const User = require('../../models/User');
 
 const dailyAmount = 100;
 
 module.exports = {
-    
-    /**
-     * 
-     * @param {Client} client 
-     * @param {Interaction} interaction 
-     */
-    callback: async (client, interaction) => {
+
+    data: new SlashCommandBuilder()
+        .setName("daily")
+        .setDescription("Collect your daily"),
+
+    run: async ({interaction, client}) => {
         if (!interaction.inGuild())
         {
             interaction.reply({
@@ -55,6 +54,15 @@ module.exports = {
             console.log(`Error with daily ${error}`);
         }
     },
-    name: 'daily',
-    description: 'Collect your dailies!',
+    
+    // /**
+    //  * 
+    //  * @param {Client} client 
+    //  * @param {Interaction} interaction 
+    //  */
+    // callback: async (client, interaction) => {
+    //     
+    // },
+    // name: 'daily',
+    // description: 'Collect your dailies!',
 }
