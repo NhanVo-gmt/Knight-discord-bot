@@ -51,6 +51,13 @@ web_modules/
 # Optional npm cache directory
 .npm
 
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
 # Optional eslint cache
 .eslintcache
 
